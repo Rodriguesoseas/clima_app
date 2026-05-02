@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<div class="container">
+  <div class="card">
+    <h1>Clima</h1>
+
+    <input type="text" id="cidade" placeholder="Digite a cidade">
+    <button onclick="buscarClima()">Buscar</button>
+    <div id="map" style="height: 300px; margin-top: 20px;"></div>
+    <div id="resultado"></div>
+  </div>
+</div>
+
+<script>
+
+let map = L.map('map').setView([-5.09, -42.80], 5); // Brasil
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+let marker;
+
+function buscarClima() {
+  const cidade = document.getElementById("cidade").value;
+
+  fetch(`/buscar_clima?cidade=${cidade}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.erro) {
+        document.getElementById("resultado").innerHTML = data.erro;
+        return;
+      }
+
+      document.getElementById("resultado").innerHTML = `
+        <p><strong>Cidade:</strong> ${data.cidade}</p>
+        <p><strong>Temperatura:</strong> ${data.temperatura}°C</p>
+        <p><strong>Vento:</strong> ${data.vento} km/h</p>
+      `;
+
+      // Atualiza mapa
+      const lat = parseFloat(data.lat);
+      const lon = parseFloat(data.lon);
+
+      map.setView([lat, lon], 10);
+
+      if (marker) {
+        map.removeLayer(marker);
+      }
+
+      marker = L.marker([lat, lon]).addTo(map)
+        .bindPopup(data.cidade)
+        .openPopup();
+    });
+}
+</script>
