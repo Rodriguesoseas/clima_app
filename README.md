@@ -1,24 +1,32 @@
-# README
+## 🌦️ Clima App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Aplicação web que mostra o clima em tempo real de qualquer cidade do Brasil, com mapa interativo.
 
-Things you may want to cover:
+---
 
-* Ruby version
+## 🚀 Tecnologias utilizadas
 
-* System dependencies
+- Ruby on Rails
+- JavaScript
+- OpenStreetMap
+- API de clima (Open-Meteo)
 
-* Configuration
+---
 
-* Database creation
+## 🔥 Funcionalidades
 
-* Database initialization
+- Buscar cidade
+- Mostrar temperatura e vento
+- Exibir localização no mapa
+- Integração com APIs externas
 
-* How to run the test suite
+---
 
-* Services (job queues, cache servers, search engines, etc.)
+## 🗺️ Como funciona
 
-* Deployment instructions
+1. O usuário digita uma cidade  
+2. A aplicação busca coordenadas usando OpenStreetMap  
+3. Consulta o clima em tempo real  
+4. Exibe os dados e marca no mapa  
 
-* ...
+---
