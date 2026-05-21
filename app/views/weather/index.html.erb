@@ -1,57 +1,38 @@
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<div class="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8">
+  <% if logged_in? %>
+    <section class="glass col-span-1 p-8 md:col-span-12 md:p-12">
+      <h1 class="mb-2 text-2xl font-bold tracking-tight text-white md:text-4xl">
+        Consulte o clima da sua cidade
+      </h1>
+      <p class="mb-8 text-slate-400">Busca em tempo real com dados meteorológicos atualizados.</p>
 
-<div class="container">
-  <div class="card">
-    <h1>Clima</h1>
+      <form id="clima-form" class="flex flex-col gap-4 sm:flex-row" data-turbo="false">
+        <input
+          type="text"
+          id="cidade"
+          name="cidade"
+          class="input-field flex-1"
+          placeholder="Digite uma cidade..."
+          autocomplete="address-level2"
+        />
+        <button type="submit" class="btn-primary w-full shrink-0 sm:w-auto">
+          Buscar
+        </button>
+      </form>
+    </section>
 
-    <input type="text" id="cidade" placeholder="Digite a cidade">
-    <button onclick="buscarClima()">Buscar</button>
-    <div id="map" style="height: 300px; margin-top: 20px;"></div>
-    <div id="resultado"></div>
-  </div>
+    <div
+      id="resultado"
+      class="col-span-1 min-h-[280px] md:col-span-12"
+      aria-live="polite"
+    ></div>
+  <% else %>
+    <section class="glass col-span-1 mx-auto w-full max-w-lg py-16 text-center md:col-span-12 lg:col-start-3 lg:col-span-8">
+      <h2 class="mb-4 text-3xl font-bold text-white">Bem-vindo</h2>
+      <p class="mb-8 text-lg leading-relaxed text-slate-400">
+        Faça login para consultar o clima em tempo real.
+      </p>
+      <%= link_to "Entrar", login_path, class: "btn-primary" %>
+    </section>
+  <% end %>
 </div>
-
-<script>
-
-let map = L.map('map').setView([-5.09, -42.80], 5); // Brasil
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-let marker;
-
-function buscarClima() {
-  const cidade = document.getElementById("cidade").value;
-
-  fetch(`/buscar_clima?cidade=${cidade}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.erro) {
-        document.getElementById("resultado").innerHTML = data.erro;
-        return;
-      }
-
-      document.getElementById("resultado").innerHTML = `
-        <p><strong>Cidade:</strong> ${data.cidade}</p>
-        <p><strong>Temperatura:</strong> ${data.temperatura}°C</p>
-        <p><strong>Vento:</strong> ${data.vento} km/h</p>
-      `;
-
-      // Atualiza mapa
-      const lat = parseFloat(data.lat);
-      const lon = parseFloat(data.lon);
-
-      map.setView([lat, lon], 10);
-
-      if (marker) {
-        map.removeLayer(marker);
-      }
-
-      marker = L.marker([lat, lon]).addTo(map)
-        .bindPopup(data.cidade)
-        .openPopup();
-    });
-}
-</script>
