@@ -17,11 +17,6 @@ gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
-
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
 gem "pg"
 gem "tailwindcss-rails"
 
@@ -62,7 +57,4 @@ end
 group :test do
   # Minitest 6 quebra o runner do Rails 7.1; manter na série 5.
   gem "minitest", "~> 5.25"
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
 end

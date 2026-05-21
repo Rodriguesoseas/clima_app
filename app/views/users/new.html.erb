@@ -1,0 +1,33 @@
+<div class="flex min-h-[calc(100vh-8rem)] items-center justify-center py-8">
+  <div class="glass w-full max-w-md p-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">Criar conta</h1>
+
+    <% if flash[:alert] %>
+      <p class="error-box mb-6"><%= flash[:alert] %></p>
+    <% end %>
+
+    <%= form_with model: @user, url: signup_path, class: "flex flex-col gap-4" do |f| %>
+      <div>
+        <%= f.label :email, "E-mail", class: "mb-2 block text-sm font-medium text-slate-300" %>
+        <%= f.email_field :email, class: "input-field", autocomplete: "email", required: true %>
+      </div>
+
+      <div>
+        <%= f.label :password, "Senha", class: "mb-2 block text-sm font-medium text-slate-300" %>
+        <%= f.password_field :password, class: "input-field", autocomplete: "new-password", required: true %>
+      </div>
+
+      <div>
+        <%= f.label :password_confirmation, "Confirmar senha", class: "mb-2 block text-sm font-medium text-slate-300" %>
+        <%= f.password_field :password_confirmation, class: "input-field", autocomplete: "new-password", required: true %>
+      </div>
+
+      <%= f.submit "Cadastrar", class: "btn-primary mt-2 w-full cursor-pointer" %>
+    <% end %>
+
+    <p class="mt-6 text-center text-sm text-slate-400">
+      Já tem conta?
+      <%= link_to "Entrar", login_path, class: "text-blue-400 transition hover:text-blue-300 hover:underline" %>
+    </p>
+  </div>
+</div>

@@ -12,6 +12,7 @@
         <%= button_to "Sair", logout_path, method: :delete, class: "btn-outline" %>
       <% else %>
         <%= link_to "Entrar", login_path, class: "btn-primary" %>
+        <%= link_to "Cadastrar", signup_path, class: "btn-outline" %>
       <% end %>
     </nav>
   </div>

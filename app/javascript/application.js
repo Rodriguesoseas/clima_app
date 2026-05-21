@@ -1,5 +1,4 @@
 import "@hotwired/turbo-rails"
-import "controllers"
 
 function csrfToken() {
   const meta = document.querySelector("meta[name='csrf-token']")
