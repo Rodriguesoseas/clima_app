@@ -72,8 +72,6 @@ Após `db:seed`:
 | E-mail  | `demo@clima.app`   |
 | Senha   | `demo123456`       |
 
-Não use essas credenciais em produção.
-
 ## Testes
 
 ```bash
@@ -112,13 +110,3 @@ app/
 - **Open-Meteo**: sem chave de API para uso básico de previsão atual.
 
 Respeite limites de taxa do Nominatim em ambientes com muitos usuários.
-
-## Produção
-
-- Configure variáveis de banco via ambiente ou credenciais Rails.
-- Defina `RAILS_MASTER_KEY` e rode `assets:precompile` antes do deploy.
-- Revise `config/environments/production.rb` e não execute seeds com senhas de demonstração.
-
-## Licença
-
-Projeto de portfólio / estudo. Defina a licença desejada se for publicar o repositório.
