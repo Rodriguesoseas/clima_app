@@ -27,13 +27,10 @@ Um dashboard de clima premium construído com Ruby on Rails, Tailwind CSS e Hotw
 - [Funcionalidades](#funcionalidades)
 - [Design & UX](#design--ux)
 - [Stack tecnológica](#stack-tecnológica)
-- [Como funciona](#como-funciona)
-- [Instalação](#instalação)
 - [Testes](#testes)
 - [Rotas principais](#rotas-principais)
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [APIs externas](#apis-externas)
-- [Licença](#licença)
 
 ## 🚀 Visão geral
 
