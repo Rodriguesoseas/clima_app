@@ -1,0 +1,14 @@
+<%#
+  Cartão compacto de métrica usado no rail lateral.
+  Locals: icon (svg), color (string tailwind), rotulo, valor, detalhe, delay
+%>
+<div class="metric-card animate-fade-up" style="animation-delay: <%= delay %>ms">
+  <div class="flex items-center justify-between gap-2">
+    <span class="<%= color %>"><%= icon %></span>
+    <span class="metric-label"><%= rotulo %></span>
+  </div>
+  <p class="mt-3 font-mono text-2xl font-semibold tabular-nums leading-none text-white">
+    <%= valor %>
+  </p>
+  <p class="mt-1.5 text-xs text-slate-500"><%= detalhe %></p>
+</div>

@@ -1,0 +1,34 @@
+<%#
+  Lista de previsão para 7 dias com barra de amplitude máx/mín.
+  Locals: clima, delay
+%>
+<% menor = clima[:diaria].map { |d| d[:min] }.min %>
+<% maior = clima[:diaria].map { |d| d[:max] }.max %>
+<% faixa = [maior - menor, 1].max %>
+
+<section class="glass col-span-1 p-6 md:col-span-7 md:p-8 animate-fade-up" style="animation-delay: <%= delay %>ms">
+  <h2 class="mb-6 text-sm font-semibold uppercase tracking-wider text-slate-400">Próximos 7 dias</h2>
+
+  <ul class="divide-y divide-white/[0.05]">
+    <% clima[:diaria].each_with_index do |d, i| %>
+      <li class="flex items-center gap-3 py-3.5 first:pt-0 last:pb-0">
+        <span class="w-12 shrink-0 text-sm font-medium text-slate-200"><%= nome_dia(d[:data], i) %></span>
+
+        <span class="w-7 shrink-0 text-center text-slate-300">
+          <%= weather_icon(d[:weathercode], is_day: clima[:is_day], class: "mx-auto h-5 w-5") %>
+        </span>
+
+        <span class="w-9 shrink-0 text-right font-mono text-sm tabular-nums text-slate-500"><%= d[:min].round %>°</span>
+
+        <div class="relative h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+          <div
+            class="absolute h-full rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-orange-400"
+            style="left: <%= ((d[:min] - menor).to_f / faixa * 100).round(1) %>%; width: <%= [((d[:max] - d[:min]).to_f / faixa * 100).round(1), 4].max %>%"
+          ></div>
+        </div>
+
+        <span class="w-9 shrink-0 text-right font-mono text-sm font-semibold tabular-nums text-white"><%= d[:max].round %>°</span>
+      </li>
+    <% end %>
+  </ul>
+</section>

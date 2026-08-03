@@ -14,7 +14,7 @@ Aplicação web em Ruby on Rails para consultar o clima em tempo real de cidades
 
 | Camada        | Tecnologia                          |
 |---------------|-------------------------------------|
-| Backend       | Ruby 3.2.2, Rails 7.1               |
+| Backend       | Ruby 3.3.8, Rails 7.1               |
 | Banco         | PostgreSQL                          |
 | Frontend      | ERB, Tailwind CSS 4, Hotwire Turbo  |
 | JavaScript    | Importmap (sem bundler Node)         |
@@ -30,7 +30,7 @@ Aplicação web em Ruby on Rails para consultar o clima em tempo real de cidades
 
 ## Requisitos
 
-- Ruby 3.2.2 (veja `.ruby-version`)
+- Ruby 3.3.8 (veja `.ruby-version`)
 - PostgreSQL em execução
 - Bundler
 

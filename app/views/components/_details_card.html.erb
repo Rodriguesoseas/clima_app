@@ -1,0 +1,104 @@
+<%#
+  Cartão de detalhes: umidade, pressão, vento, UV, precipitação e sensação com barras.
+  Locals: clima, delay
+%>
+<% pressao = clima[:pressao] %>
+
+<section class="glass col-span-1 p-6 md:col-span-5 md:p-8 animate-fade-up" style="animation-delay: <%= delay %>ms">
+  <h2 class="mb-6 text-sm font-semibold uppercase tracking-wider text-slate-400">Detalhes</h2>
+
+  <ul class="space-y-5">
+    <li class="flex items-center gap-4">
+      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.04] text-sky-400">
+        <%= icone_weather(:umidade, class: "h-5 w-5") %>
+      </span>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-baseline justify-between gap-2">
+          <p class="text-sm text-slate-400">Umidade</p>
+          <p class="font-mono text-sm font-semibold tabular-nums text-white"><%= clima[:umidade].round %>%</p>
+        </div>
+        <div class="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+          <div class="h-full rounded-full bg-gradient-to-r from-sky-400 to-cyan-300" style="width: <%= pct_barra(clima[:umidade], 100) %>%"></div>
+        </div>
+      </div>
+    </li>
+
+    <li class="flex items-center gap-4">
+      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.04] text-violet-400">
+        <%= icone_weather(:pressao, class: "h-5 w-5") %>
+      </span>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-baseline justify-between gap-2">
+          <p class="text-sm text-slate-400">Pressão</p>
+          <p class="font-mono text-sm font-semibold tabular-nums text-white"><%= pressao.round %> hPa</p>
+        </div>
+        <div class="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+          <div class="h-full rounded-full bg-gradient-to-r from-violet-400 to-purple-300" style="width: <%= pct_barra(pressao - 980, 60) %>%"></div>
+        </div>
+      </div>
+    </li>
+
+    <li class="flex items-center gap-4">
+      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.04] text-emerald-400">
+        <%= icone_weather(:vento, class: "h-5 w-5") %>
+      </span>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-baseline justify-between gap-2">
+          <p class="text-sm text-slate-400">Vento</p>
+          <p class="font-mono text-sm font-semibold tabular-nums text-white"><%= clima[:vento].round %> km/h</p>
+        </div>
+        <div class="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+          <div class="h-full rounded-full bg-gradient-to-r from-emerald-400 to-teal-300" style="width: <%= pct_barra(clima[:vento], 60) %>%"></div>
+        </div>
+        <p class="mt-1.5 text-xs text-slate-500">
+          Direção <%= direcao_vento(clima[:direcao_vento]) %>
+        </p>
+      </div>
+    </li>
+
+    <li class="flex items-center gap-4">
+      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.04] text-amber-400">
+        <%= icone_weather(:uv, class: "h-5 w-5") %>
+      </span>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-baseline justify-between gap-2">
+          <p class="text-sm text-slate-400">Índice UV</p>
+          <p class="font-mono text-sm font-semibold tabular-nums text-white"><%= clima[:uv].round(1) %> · <%= nivel_uv(clima[:uv]) %></p>
+        </div>
+        <div class="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+          <div class="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-300" style="width: <%= pct_barra(clima[:uv], 11) %>%"></div>
+        </div>
+      </div>
+    </li>
+
+    <li class="flex items-center gap-4">
+      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.04] text-sky-400">
+        <%= icone_weather(:gota, class: "h-5 w-5") %>
+      </span>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-baseline justify-between gap-2">
+          <p class="text-sm text-slate-400">Precipitação</p>
+          <p class="font-mono text-sm font-semibold tabular-nums text-white"><%= clima[:precipitacao].to_f.round(1) %> mm</p>
+        </div>
+        <div class="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+          <div class="h-full rounded-full bg-gradient-to-r from-sky-400 to-blue-300" style="width: <%= pct_barra(clima[:precipitacao], 20) %>%"></div>
+        </div>
+      </div>
+    </li>
+
+    <li class="flex items-center gap-4">
+      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.04] text-orange-400">
+        <%= icone_weather(:termometro, class: "h-5 w-5") %>
+      </span>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-baseline justify-between gap-2">
+          <p class="text-sm text-slate-400">Sensação térmica</p>
+          <p class="font-mono text-sm font-semibold tabular-nums text-white"><%= clima[:sensacao].round %>°</p>
+        </div>
+        <p class="mt-1.5 text-xs text-slate-500">
+          <%= clima[:temperatura].round > clima[:sensacao].round ? "Mais frio que a temperatura real" : "Próxima da temperatura real" %>
+        </p>
+      </div>
+    </li>
+  </ul>
+</section>

@@ -1,0 +1,31 @@
+<%#
+  Hero da condição atual: cidade, temperatura com count-up e ícone flutuante.
+  Locals: clima (hash do WeatherService)
+%>
+<div class="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+  <div class="space-y-3">
+    <p class="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-blue-400">
+      <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400"></span>
+      Tempo agora · atualizado às <%= (clima[:atualizado_em] || "").to_s.slice(11, 5) %>
+    </p>
+    <h1 class="max-w-xl text-balance text-3xl font-bold tracking-tight text-white md:text-5xl">
+      <%= clima[:cidade] %>
+    </h1>
+    <p class="text-slate-400 md:text-lg">
+      <%= condicao_texto(clima[:weathercode]) %> · sensação de
+      <span class="font-mono font-medium text-slate-300"><%= clima[:sensacao].round %>°</span>
+    </p>
+  </div>
+
+  <div class="flex items-center gap-6 md:flex-col lg:flex-row lg:gap-8">
+    <p
+      class="bg-gradient-to-br from-white to-white/45 bg-clip-text font-mono text-[clamp(4rem,12vw,7.5rem)] font-bold leading-none tracking-tighter text-transparent tabular-nums"
+      data-count-up="<%= clima[:temperatura] %>"
+    >
+      <%= clima[:temperatura].round %>°
+    </p>
+    <span class="animate-float hero-icon shrink-0">
+      <%= weather_icon(clima[:weathercode], is_day: clima[:is_day], class: "h-20 w-20 md:h-28 md:w-28") %>
+    </span>
+  </div>
+</div>

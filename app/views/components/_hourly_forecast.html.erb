@@ -1,0 +1,22 @@
+<%#
+  Strip de previsão horária com scroll snap.
+  Locals: clima, delay
+%>
+<section class="glass col-span-1 p-6 md:col-span-12 md:p-8 animate-fade-up" style="animation-delay: <%= delay %>ms">
+  <h2 class="mb-6 text-sm font-semibold uppercase tracking-wider text-slate-400">Próximas horas</h2>
+
+  <div class="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1">
+    <% clima[:horaria].each_with_index do |h, i| %>
+      <div class="flex w-[76px] shrink-0 snap-start flex-col items-center gap-2 rounded-2xl border border-white/[0.06] bg-white/[0.03] px-2 py-3.5 transition-colors duration-200 hover:bg-white/[0.07]">
+        <span class="text-xs font-medium text-slate-400"><%= i.zero? ? "Agora" : h[:hora] %></span>
+        <span class="text-slate-300">
+          <%= weather_icon(h[:weathercode], is_day: clima[:is_day], class: "h-6 w-6") %>
+        </span>
+        <span class="font-mono text-base font-semibold tabular-nums text-white"><%= h[:temp].round %>°</span>
+        <% if h[:precipitacao].present? && h[:precipitacao] >= 5 %>
+          <span class="text-[11px] font-medium tabular-nums text-sky-400"><%= h[:precipitacao].round %>%</span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

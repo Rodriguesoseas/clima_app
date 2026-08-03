@@ -1,38 +1,54 @@
 <div class="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8">
   <% if logged_in? %>
-    <section class="glass col-span-1 p-8 md:col-span-12 md:p-12">
-      <h1 class="mb-2 text-2xl font-bold tracking-tight text-white md:text-4xl">
-        Consulte o clima da sua cidade
-      </h1>
-      <p class="mb-8 text-slate-400">Busca em tempo real com dados meteorológicos atualizados.</p>
-
-      <form id="clima-form" class="flex flex-col gap-4 sm:flex-row" data-turbo="false">
-        <input
-          type="text"
-          id="cidade"
-          name="cidade"
-          class="input-field flex-1"
-          placeholder="Digite uma cidade..."
-          autocomplete="address-level2"
-        />
-        <button type="submit" class="btn-primary w-full shrink-0 sm:w-auto">
-          Buscar
-        </button>
-      </form>
-    </section>
+    <%= render "components/search_bar" %>
 
     <div
       id="resultado"
-      class="col-span-1 min-h-[280px] md:col-span-12"
+      class="col-span-1 grid grid-cols-1 gap-6 md:col-span-12 md:grid-cols-12 md:gap-8"
       aria-live="polite"
-    ></div>
+    >
+      <template id="skeleton-template">
+        <%= render "components/skeleton" %>
+      </template>
+
+      <%= render "components/empty_state" %>
+    </div>
   <% else %>
-    <section class="glass col-span-1 mx-auto w-full max-w-lg py-16 text-center md:col-span-12 lg:col-start-3 lg:col-span-8">
-      <h2 class="mb-4 text-3xl font-bold text-white">Bem-vindo</h2>
-      <p class="mb-8 text-lg leading-relaxed text-slate-400">
-        Faça login para consultar o clima em tempo real.
-      </p>
-      <%= link_to "Entrar", login_path, class: "btn-primary" %>
+    <section class="glass glass-border col-span-1 mx-auto w-full max-w-3xl overflow-hidden md:col-span-12 lg:col-start-3 lg:col-span-8">
+      <div class="grid md:grid-cols-2">
+        <div class="hidden flex-col justify-center gap-5 bg-gradient-to-br from-blue-600/20 via-slate-900/40 to-indigo-600/10 p-10 md:flex">
+          <span class="text-sky-300"><%= icone_weather(:sol_nuvem, class: "h-16 w-16") %></span>
+          <h2 class="text-balance text-2xl font-bold leading-tight text-white">
+            Clima em <span class="bg-gradient-to-r from-sky-300 to-indigo-300 bg-clip-text text-transparent">tempo real</span>
+          </h2>
+          <p class="text-sm leading-relaxed text-slate-400">
+            Temperatura, umidade, vento e previsão de 7 dias para qualquer cidade do Brasil.
+          </p>
+          <ul class="space-y-3 text-sm text-slate-300">
+            <li class="flex items-center gap-3">
+              <span class="text-blue-400"><%= icone_weather(:termometro, class: "h-4.5 w-4.5") %></span>
+              Previsão hora a hora
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-amber-400"><%= icone_weather(:nascer, class: "h-4.5 w-4.5") %></span>
+              Nascer e pôr do sol
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-violet-400"><%= icone_weather(:pressao, class: "h-4.5 w-4.5") %></span>
+              Índice UV, umidade e pressão
+            </li>
+          </ul>
+        </div>
+
+        <div class="flex flex-col justify-center p-8 text-center md:p-12">
+          <h2 class="mb-3 text-balance text-2xl font-bold text-white md:text-3xl">Bem-vindo</h2>
+          <p class="mb-8 text-slate-400">Faça login para consultar o clima em tempo real.</p>
+          <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <%= link_to "Entrar", login_path, class: "btn-primary w-full sm:w-auto" %>
+            <%= link_to "Criar conta", signup_path, class: "btn-outline w-full sm:w-auto" %>
+          </div>
+        </div>
+      </div>
     </section>
   <% end %>
 </div>

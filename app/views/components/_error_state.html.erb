@@ -1,0 +1,18 @@
+<%#
+  Estado de erro renderizado pelo servidor (fragmento).
+  Locals: mensagem
+%>
+<div class="col-span-1 animate-fade-up md:col-span-12">
+  <div class="glass flex items-center gap-5 border-red-500/20 p-8">
+    <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-500/10 text-red-300">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v4M12 16h.01" />
+      </svg>
+    </span>
+    <div>
+      <p class="font-semibold text-white">Não foi possível buscar o clima</p>
+      <p class="mt-0.5 text-sm text-slate-400"><%= mensagem %></p>
+    </div>
+  </div>
+</div>

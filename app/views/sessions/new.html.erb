@@ -1,32 +1,85 @@
-<div class="flex min-h-[calc(100vh-8rem)] items-center justify-center py-8">
-  <div class="glass w-full max-w-md p-8">
-    <h1 class="mb-6 text-2xl font-bold text-white">Entrar</h1>
-
-    <% if flash[:alert] %>
-      <p class="error-box mb-6"><%= flash[:alert] %></p>
-    <% end %>
-
-    <%= form_with url: login_path, method: :post, class: "flex flex-col gap-4" do %>
+<div class="flex items-center justify-center py-8">
+  <div class="glass glass-border grid w-full max-w-5xl overflow-hidden lg:grid-cols-2">
+    <aside class="hidden flex-col justify-between bg-gradient-to-br from-blue-600/20 via-slate-900/40 to-indigo-600/10 p-10 lg:flex">
       <div>
-        <%= label_tag :email, "E-mail", class: "mb-2 block text-sm font-medium text-slate-300" %>
-        <%= email_field_tag :email, params[:email], class: "input-field", autocomplete: "username", required: true %>
+        <div class="mb-10 flex items-center gap-2.5">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 shadow-glow">
+            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+            </svg>
+          </span>
+          <span class="text-lg font-bold tracking-tight text-white">Clima<span class="font-medium text-slate-500">App</span></span>
+        </div>
+
+        <p class="mb-2 text-sm font-medium uppercase tracking-widest text-blue-400">Acesso</p>
+        <h2 class="mb-4 text-balance text-3xl font-bold leading-tight text-white">
+          Bem-vindo de <span class="bg-gradient-to-r from-sky-300 to-indigo-300 bg-clip-text text-transparent">volta</span>
+        </h2>
+        <p class="leading-relaxed text-slate-400">
+          Consulte o clima atual e a previsão de 7 dias para qualquer cidade do Brasil.
+        </p>
       </div>
 
-      <div>
-        <%= label_tag :password, "Senha", class: "mb-2 block text-sm font-medium text-slate-300" %>
-        <%= password_field_tag :password, nil, class: "input-field", autocomplete: "current-password", required: true %>
+      <ul class="space-y-3.5 text-sm text-slate-300">
+        <li class="flex items-center gap-3">
+          <span class="text-amber-300"><%= icone_weather(:termometro, class: "h-4.5 w-4.5") %></span>
+          Temperatura e sensação térmica
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="text-sky-300"><%= icone_weather(:chuva, class: "h-4.5 w-4.5") %></span>
+          Previsão horária e diária
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="text-orange-300"><%= icone_weather(:nascer, class: "h-4.5 w-4.5") %></span>
+          Nascer e pôr do sol
+        </li>
+      </ul>
+    </aside>
+
+    <div class="p-8 md:p-12">
+      <h1 class="mb-1 text-2xl font-bold tracking-tight text-white md:text-3xl">Entrar</h1>
+      <p class="mb-8 text-sm text-slate-400">Acesse sua conta para consultar o clima.</p>
+
+      <%= form_with url: login_path, method: :post, class: "flex flex-col gap-5" do %>
+        <div>
+          <%= label_tag :email, "E-mail", class: "mb-2 block text-sm font-medium text-slate-300" %>
+          <%= email_field_tag :email, params[:email], class: "input-field", autocomplete: "username", required: true, placeholder: "voce@exemplo.com" %>
+        </div>
+
+        <div>
+          <div class="mb-2 flex items-center justify-between">
+            <%= label_tag :password, "Senha", class: "block text-sm font-medium text-slate-300" %>
+            <%= button_tag type: "button", class: "password-toggle text-xs font-medium text-blue-400 transition-colors hover:text-blue-300", data: { target: "password" }, aria: { label: "Mostrar senha" } do %>
+              Mostrar
+            <% end %>
+          </div>
+          <%= password_field_tag :password, nil, id: "password", class: "input-field", autocomplete: "current-password", required: true, placeholder: "••••••••" %>
+        </div>
+
+        <%= submit_tag "Entrar", class: "btn-primary mt-2 w-full cursor-pointer" %>
+      <% end %>
+
+      <div class="my-6 flex items-center gap-3">
+        <span class="h-px flex-1 bg-white/10"></span>
+        <span class="text-xs uppercase tracking-wider text-slate-500">ou</span>
+        <span class="h-px flex-1 bg-white/10"></span>
       </div>
 
-      <%= submit_tag "Entrar", class: "btn-primary mt-2 w-full cursor-pointer" %>
-    <% end %>
+      <div class="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+        <p class="mb-1 text-[11px] font-medium uppercase tracking-wider text-slate-500">Conta de demonstração</p>
+        <p class="mb-3 text-sm text-slate-400">
+          <span class="font-medium text-slate-300">demo@clima.app</span> · senha
+          <span class="font-medium text-slate-300">demo123456</span>
+        </p>
+        <button type="button" id="preencher-demo" class="btn-outline w-full py-2 text-xs">
+          Preencher automaticamente
+        </button>
+      </div>
 
-    <p class="mt-6 text-center text-sm text-slate-400">
-      <%= link_to "Voltar ao início", root_path, class: "text-blue-400 transition hover:text-blue-300 hover:underline" %>
-    </p>
-
-    <p class="mt-2 text-center text-sm text-slate-400">
-      Não tem conta?
-      <%= link_to "Cadastrar", signup_path, class: "text-blue-400 transition hover:text-blue-300 hover:underline" %>
-    </p>
+      <p class="mt-6 text-center text-sm text-slate-400">
+        Não tem conta?
+        <%= link_to "Cadastrar", signup_path, class: "font-medium text-blue-400 transition-colors hover:text-blue-300 hover:underline" %>
+      </p>
+    </div>
   </div>
 </div>

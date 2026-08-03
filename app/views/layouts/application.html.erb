@@ -1,28 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="dark h-full">
   <head>
-    <title>Clima App</title>
+    <title>Clima App — tempo em tempo real</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Consulte o clima atual e a previsão de 7 dias para qualquer cidade do Brasil.">
+    <meta name="theme-color" content="#070b14">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-full bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950">
+  <body class="relative flex min-h-full flex-col">
+    <a href="#conteudo" class="skip-link">Pular para o conteúdo</a>
+
+    <div class="bg-ambient" aria-hidden="true"></div>
+    <div class="bg-decor" aria-hidden="true">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="stars" aria-hidden="true"></div>
+
     <%= render "shared/navbar" %>
 
     <% if flash[:notice].present? %>
-      <p class="flash-notice" role="status"><%= flash[:notice] %></p>
+      <div class="toast toast-success" role="status">
+        <svg class="h-5 w-5 shrink-0 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+          <path d="M22 4L12 14.01l-3-3" />
+        </svg>
+        <span><%= flash[:notice] %></span>
+      </div>
     <% end %>
 
-    <main class="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-12">
+    <% if flash[:alert].present? %>
+      <div class="toast toast-error" role="alert">
+        <svg class="h-5 w-5 shrink-0 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 8v4M12 16h.01" />
+        </svg>
+        <span><%= flash[:alert] %></span>
+      </div>
+    <% end %>
+
+    <main id="conteudo" class="relative z-10 mx-auto w-full max-w-7xl flex-1 px-4 py-8 md:px-8 md:py-12">
       <%= yield %>
     </main>
+
+    <footer class="relative z-10 mx-auto w-full max-w-7xl px-4 pb-10 text-center text-xs text-slate-600">
+      Dados meteorológicos: <span class="text-slate-500">Open-Meteo</span> ·
+      Geolocalização: <span class="text-slate-500">OpenStreetMap / Nominatim</span>
+    </footer>
+
+    <div class="bg-noise" aria-hidden="true"></div>
   </body>
 </html>

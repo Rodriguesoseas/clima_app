@@ -1,0 +1,33 @@
+<%#
+  Dashboard completo do clima — fragmento injetado na página via fetch.
+  Locals: clima (hash do WeatherService)
+%>
+<% tema = tema_ambiente(clima[:weathercode], clima[:is_day]) %>
+<% hoje = clima[:diaria][0] if clima[:diaria].present? %>
+
+<div
+  class="col-span-1 grid grid-cols-1 gap-6 md:col-span-12 md:grid-cols-12 md:gap-8"
+  data-weather="<%= tema %>"
+  data-cidade="<%= clima[:cidade] %>"
+>
+  <section class="glass glass-border col-span-1 p-8 md:col-span-8 md:p-10 animate-fade-up">
+    <%= render "components/current_condition", clima: clima %>
+  </section>
+
+  <aside class="col-span-1 grid grid-cols-2 content-start gap-4 md:col-span-4">
+    <%= render "components/metric_card", icon: icone_weather(:nascer, class: "h-5 w-5"), color: "text-amber-300", rotulo: "Nascer", valor: hoje[:nascer_sol] || "--", detalhe: "amanhecer", delay: 60 %>
+    <%= render "components/metric_card", icon: icone_weather(:por, class: "h-5 w-5"), color: "text-orange-300", rotulo: "Pôr", valor: hoje[:por_sol] || "--", detalhe: "crepúsculo", delay: 100 %>
+    <%= render "components/metric_card", icon: icone_weather(:uv, class: "h-5 w-5"), color: "text-amber-300", rotulo: "UV", valor: clima[:uv].round(1), detalhe: nivel_uv(clima[:uv]), delay: 140 %>
+    <%= render "components/metric_card", icon: icone_weather(:vento, class: "h-5 w-5"), color: "text-emerald-300", rotulo: "Vento", valor: "#{clima[:vento].round} km/h", detalhe: "direção #{direcao_vento(clima[:direcao_vento])}", delay: 180 %>
+  </aside>
+
+  <% if clima[:horaria].present? %>
+    <%= render "components/hourly_forecast", clima: clima, delay: 240 %>
+  <% end %>
+
+  <% if clima[:diaria].present? %>
+    <%= render "components/daily_forecast", clima: clima, delay: 300 %>
+  <% end %>
+
+  <%= render "components/details_card", clima: clima, delay: 340 %>
+</div>

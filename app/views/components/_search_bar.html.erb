@@ -1,0 +1,34 @@
+<%#
+  Barra de busca com atalho, chips populares e área de recentes (preenchida via JS).
+%>
+<section class="glass glass-border col-span-1 p-5 md:col-span-12 md:p-6 animate-fade-up">
+  <form id="clima-form" class="flex flex-col gap-4" data-turbo="false">
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <div class="relative flex-1">
+        <svg class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.2-3.2" />
+        </svg>
+        <%= text_field_tag :cidade, nil, id: "cidade", name: "cidade", class: "input-field pl-12 pr-12", placeholder: "Buscar cidade...", autocomplete: "address-level2", aria: { label: "Nome da cidade" } %>
+        <kbd class="absolute right-4 top-1/2 hidden -translate-y-1/2 md:block" title="Pressione / para buscar">/</kbd>
+      </div>
+      <button type="submit" class="btn-primary w-full shrink-0 px-7 sm:w-auto">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.2-3.2" />
+        </svg>
+        Buscar
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+      <div id="recentes" class="flex flex-wrap items-center gap-2"></div>
+      <div id="cidades-populares" class="flex flex-wrap items-center gap-2">
+        <span class="text-[11px] font-medium uppercase tracking-wider text-slate-500">Populares</span>
+        <% cidades_populares.each do |cidade| %>
+          <button type="button" data-cidade="<%= cidade %>" class="chip" aria-pressed="false"><%= cidade %></button>
+        <% end %>
+      </div>
+    </div>
+  </form>
+</section>
